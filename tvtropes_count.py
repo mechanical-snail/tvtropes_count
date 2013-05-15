@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 # This script is released under the GNU General Public License version 2 or later.
 
-'''Calculates the number of trope entries of a work according to its page on TV Tropes (http://tvtropes.org/).
+'''Calculates the number of trope entries of a work according to its page on TV Tropes.'''
 
-Notes:
-* TV Tropes does not standardize their article format or use machine-readable semantic markup, so it is impossible to do this accurately. We assume that there is a single <ul> of tropes following an <h2>, and that top-level bullet points in that list = tropes.
-* Works by parsing the rendered HTML, rather than the source. This is because TV Tropes's source functionality is currently broken.
-'''
 import sys
 import traceback
 from lxml import etree
 
 def count_tropes(article_name):
+	'''Calculates the number of trope entries of a work according to its page on TV Tropes.'''
 	slug = ''.join(c for c in article_name if c.isalnum() or c == '/')
 	url = 'http://tvtropes.org/pmwiki/pmwiki.php/' + slug
 	doc = etree.parse(url, etree.HTMLParser())
