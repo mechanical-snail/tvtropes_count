@@ -6,3 +6,12 @@ Calculates the number of trope entries of a work according to its page on [TV Tr
 
 # License
 GPLv2+.
+
+# Examples
+
+    user@host$ ./tvtropes_count.py Film/MontyPythonAndTheHolyGrail
+    Film/MontyPythonAndTheHolyGrail: 210 tropes
+    user@host$ ./tvtropes_count.py Theatre/Spamalot Main/Spamalot Film/KillBill
+    Theatre/Spamalot: 45 tropes
+    Main/Spamalot: 45 tropes
+    Film/KillBill: 230 tropes
