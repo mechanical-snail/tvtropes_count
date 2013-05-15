@@ -16,13 +16,13 @@ def count_tropes(article_name):
 	doc = etree.parse(url, etree.HTMLParser())
 	[articlebody] = doc.xpath('''//*[@id='wikitext']''')
 	
-	# The usual format is this order: <h2>, empty <p>, the <ul> of tropes, empty <p>, <hr>.
+	# The usual format is this order: <h2>, optional empty <p>, the <ul> of tropes, optional empty <p>, <hr>.
 	[h2] = articlebody.xpath('h2')
-	assert h2.getnext().tag == 'p'
-	tropelist = h2.getnext().getnext()
+	tropelist = h2.getnext()
+	if tropelist.tag == 'p':
+		tropelist = tropelist.getnext()
 	assert tropelist.tag == 'ul'
-	assert tropelist.getnext().tag == 'p'
-	assert tropelist.getnext().getnext().tag == 'hr'
+	assert tropelist.getnext().tag == 'hr' or tropelist.getnext().tag == 'p' and tropelist.getnext().getnext().tag == 'hr'
 	assert all(elem.tag == 'li' for elem in tropelist.getchildren())
 	return len(tropelist.getchildren())
 
