@@ -8,6 +8,7 @@ Notes:
 * Works by parsing the rendered HTML, rather than the source. This is because TV Tropes's source functionality is currently broken.
 '''
 import sys
+import traceback
 from lxml import etree
 
 def count_tropes(article_name):
@@ -27,4 +28,14 @@ def count_tropes(article_name):
 	return len(tropelist.getchildren())
 
 if __name__ == '__main__':
-	print('{0} tropes'.format(count_tropes(sys.argv[1])))
+	if len(sys.argv) > 1 and not '--help' in sys.argv:
+		for article_name in sys.argv[1:]:
+			try:
+				print('{0}: {1} tropes'.format(article_name, count_tropes(article_name)))
+				sys.stdout.flush()
+			except:
+				print('{0}: error parsing:'.format(article_name), file=sys.stderr)
+				traceback.print_exc()
+	else:
+		print('''Usage: {0} [Namespace/ArticleTitle ...]
+		'''.format(sys.argv[0]), file=sys.stderr)
